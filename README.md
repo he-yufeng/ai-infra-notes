@@ -1,30 +1,41 @@
 # AI Infra Notes
 
-我在阅读和维护 AI 基础设施项目时写下的技术分析与源码笔记。
+English · [中文](README_CN.md)
 
-主要关注推理系统、KV Cache、调度与通信、模型服务协议，以及 Agent 运行时。会从具体实现往下追：一个设计解决了什么问题，依赖什么前提，又留下了什么代价。内容不局限于某个框架或厂商。
+Source-level notes on inference engines, KV caches, scheduling, communication, model-serving protocols, and agent runtimes.
+
+I follow concrete execution paths: what a design avoids computing, which assumptions make it work, and how to distinguish implementation checks from performance or quality evidence. These are independent engineering notes, not official project documentation.
 
 ## DeepInfer / deepseek-recipe
 
-DeepSeek 于 2026 年 10 月 20 日公开 DeepInfer 推理框架核心与 deepseek-recipe 编解码组件。首批先记录已经核对的调用链和实现条件，后续再展开成完整文章。
+The first three articles are in Chinese, with pinned source links and explicit validation scope:
 
-| 笔记 | 内容 |
+| Article | Focus |
 | --- | --- |
-| [首轮源码阅读记录](notes/deepinfer/00-reading-map.md) | YoCo 的 mask/compact、变长验证的启用与退化路径、Token 身份和截断工具调用 |
+| [01 · Where YoCo actually removes work](notes/deepinfer/01-yoco-bounded-replay.md) | Visibility versus row compaction, placeholder rows, ring writes, full-source data, and context-parallel layout changes |
+| [02 · When DSpark chooses its verification budget](notes/deepinfer/02-dspark-verification-budget.md) | Cumulative confidence, graph padding versus useful work, draft-inclusive sample timing, and stale-confidence scheduling |
+| [03 · Why recipe keeps token identity](notes/deepinfer/03-recipe-token-identity.md) | Explicit special-token ranges, a runnable tokenizer comparison, token-aware output parsing, and truncated tool calls |
+| [Initial reading map](notes/deepinfer/00-reading-map.md) | Entry points and the first round of source checks |
 
-接下来几天，我会继续完整梳理这两个仓库的代码，陆续写成系列技术分析，先更新在这里。准备依次深入：
+Source snapshots: DeepInfer [`8b161497`](https://github.com/deepseek-ai/DeepInfer/tree/8b16149741a4935e1dec8cea27853f273b374c5b) and recipe [`935817c6`](https://github.com/deepseek-ai/deepseek-recipe/tree/935817c66f5d6e64838f419692545f06787e485f).
 
-- SWA 状态、YoCo 层边界，以及 `mask` / `compact` 的区别；
-- DSpark 的验证预算、置信度时序与异步调度；
-- recipe 的请求转换、Token 身份与流式工具参数；
-- 对照公开源码与生产部署报告，整理已经实现和仍需外部系统补齐的部分。
+### Run the token-identity example
 
-以上是后续阅读方向，尚未完成的内容不会提前列成已发布文章。之后也会加入其他 AI Infra 项目的分析与笔记。
+The example uses a local copy of recipe's V4.1 tokenizer. No model weights or API key are needed.
 
-## 关于依据
+```bash
+python -m pip install 'tokenizers>=0.23,<0.24'
+python notes/examples/token_identity.py /path/to/deepseek-recipe/static/tokenizers/v41/tokenizer.json
+```
 
-源码分析会标出版本或提交，方便对照。厂商公布的性能数据会注明来源；实际运行过的验证与只做源码推导的结论分开写。文内引用的短代码片段及公开图表遵循各自来源的许可，本仓库的配图会标明是机制说明还是测量结果。
+It compares whole-string encoding with encoding after removing the added vocabulary. This is a Python tokenizer experiment, not a run of recipe's Rust implementation.
 
-如果发现错误，欢迎在 issue 中附上对应版本、代码位置或复现条件。
+## Evidence and scope
 
-作者：[何宇峰 / Yufeng He](https://github.com/he-yufeng)。
+Production figures are attributed to their publishers. Source derivations, executed local experiments, and unrun upstream tests are kept separate. No DeepInfer GPU/NPU model run, cluster benchmark, or recipe Rust test run is claimed in the current series.
+
+Short source excerpts retain links to their original versions and licenses. If something is wrong, please open an issue with the version, code location, or a reproduction.
+
+More articles and source walkthroughs will be published here, including other AI infrastructure projects. If the notes are useful, a Star is welcome.
+
+Author: [Yufeng He](https://github.com/he-yufeng).

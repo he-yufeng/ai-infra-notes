@@ -56,6 +56,10 @@ CPU 选择总预算使用较早的置信度。异步 decode 留下前一步状�
 - [工具名缓冲与参数片段](https://github.com/deepseek-ai/deepseek-recipe/blob/935817c66f5d6e64838f419692545f06787e485f/deepseek-recipe/src/stream/processor.rs#L333-L360)
 - [截断工具调用的测试](https://github.com/deepseek-ai/deepseek-recipe/blob/935817c66f5d6e64838f419692545f06787e485f/deepseek-recipe/src/stream/processor.rs#L940-L969)
 
-## 后续
+## 已展开的源码导读
 
-接下来几天继续完整梳理两个仓库，把这些调用链、配置差异和测试展开成系列文章。完整集群的 KV 存储、跨实例路由和部署性能，仍需与官方报告区分：当前开源仓库没有交付整套生产服务，不能把报告数据当成源码阅读已经验证的结果。
+- [YoCo 的少算发生在哪里](01-yoco-bounded-replay.md)：可见域、裁行、占位行与 CP 布局。
+- [DSpark 的预算在什么时候决定](02-dspark-verification-budget.md)：估时、草稿成本与异步置信度时序。
+- [recipe 为什么不先变成字符串](03-recipe-token-identity.md)：输入区间、输出身份与不完整工具调用，附可运行 tokenizer 对比。
+
+后续继续梳理其他调用链。完整集群的 KV 存储、跨实例路由和部署性能仍需与官方报告区分：当前开源仓库没有交付整套生产服务，不能把报告数据当成源码阅读已经验证的结果。
