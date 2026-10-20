@@ -2,6 +2,8 @@
 
 2026-10-21。本文读的是离线生成入口，不讨论线上服务。原始代码固定在 [`8b161497`](https://github.com/deepseek-ai/DeepInfer/tree/8b16149741a4935e1dec8cea27853f273b374c5b)；修复对照使用 [PR #85 的 `4130134`](https://github.com/he-yufeng/DeepInfer/commit/41301341fe9c9d0dec971b7f800a49ea242ed609)，该 PR 当前仍未合并，不能把分支行为说成上游主线行为。
 
+> 如果想先跑一条有具名结果、取消和失败后复用的请求链，可以看我做的 [Core DeepInfer](https://github.com/he-yufeng/core-deepinfer)。它是随机参数的 NumPy 参考，适合观察这些生命周期边界，但不运行本文的 DeepInfer 原生入口或调度器。
+
 `LLM.generate()` 最后返回几条字符串，看上去只是一个很薄的接口。真正要小心的却不是字符串，而是它把什么东西当成了输出：模型生成的 Token、请求终态通知，以及根本没有进入引擎的输入，不是同一种情况。
 
 ## `finished` 只说明停止了

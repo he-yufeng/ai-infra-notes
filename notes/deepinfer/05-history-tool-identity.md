@@ -2,6 +2,8 @@
 
 2026-10-21。原始版本固定为 [`935817c6`](https://github.com/deepseek-ai/deepseek-recipe/tree/935817c66f5d6e64838f419692545f06787e485f)，修复对照为 [PR #41 的 `32ca266`](https://github.com/he-yufeng/deepseek-recipe/commit/32ca266005b8d63ed312683b29d8fe50875a3b20)。问题先记录在 [Issue #40](https://github.com/deepseek-ai/deepseek-recipe/issues/40)，PR 当前仍开放，本文不把它写成已合并行为。
 
+> 这一篇继续讲 recipe 工具协议；推理执行部分另有我做的 [Core DeepInfer](https://github.com/he-yufeng/core-deepinfer) 可运行参考。它用随机参数 NumPy 模型观察缓存、验证和回滚，不包含本文的 Responses 工具名映射。
+
 第三篇讨论的是 Token 的控制身份。这次沿着 Responses 的工具转换继续往下看，会遇到另一种身份丢失：两个不同的工具，到了模型对话里却变成了同一个名字。
 
 ## `call_id` 没撞，工具身份仍然能撞

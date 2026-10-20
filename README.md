@@ -21,6 +21,8 @@ Five source walkthroughs in Chinese, with pinned code links and explicit validat
 
 Source snapshots: DeepInfer [`8b161497`](https://github.com/deepseek-ai/DeepInfer/tree/8b16149741a4935e1dec8cea27853f273b374c5b) and recipe [`935817c6`](https://github.com/deepseek-ai/deepseek-recipe/tree/935817c66f5d6e64838f419692545f06787e485f).
 
+Runnable companion: [Core DeepInfer](https://github.com/he-yufeng/core-deepinfer) follows requests through prefix recovery, verification budgets and KV rollback with a random, untrained NumPy CPU model. It is also [on PyPI](https://pypi.org/project/core-deepinfer/0.1.0/). This reference does not load DeepSeek weights or implement recipe's protocol codec; the notes retain their separate evidence scope.
+
 ### Run the token-identity example
 
 The example uses a local copy of recipe's V4.1 tokenizer. No model weights or API key are needed.

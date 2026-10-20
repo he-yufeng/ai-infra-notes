@@ -21,6 +21,8 @@ DeepSeek 于 2026 年 10 月 20 日公开 DeepInfer 推理核心与 deepseek-rec
 
 固定阅读版本：DeepInfer [`8b161497`](https://github.com/deepseek-ai/DeepInfer/tree/8b16149741a4935e1dec8cea27853f273b374c5b)，recipe [`935817c6`](https://github.com/deepseek-ai/deepseek-recipe/tree/935817c66f5d6e64838f419692545f06787e485f)。DeepInfer 随后的 `774ce244` 只调整部署文档，本文仍使用原代码锚点。
 
+想先动手跑推理状态，可以看我另做的 [Core DeepInfer](https://github.com/he-yufeng/core-deepinfer)：用随机未训练参数的 NumPy CPU 模型观察前缀恢复、验证预算与 KV 回滚，[PyPI 0.1.0](https://pypi.org/project/core-deepinfer/0.1.0/) 已可安装。它不加载 DeepSeek 权重、不实现 recipe 编解码；本仓原版源码分析与小参考的验证范围分别保留。
+
 第三篇附有可运行的 [tokenizer 对比示例](notes/examples/token_identity.py)。使用本地 V4.1 tokenizer JSON，不下载权重、不调用 API：
 
 ```bash

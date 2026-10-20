@@ -2,6 +2,8 @@
 
 2026-10-20 · deepseek-recipe 源码导读 03
 
+> 系列配套：[Core DeepInfer](https://github.com/he-yufeng/core-deepinfer) 是我做的随机参数 NumPy 推理状态参考，可以先跑请求、恢复和回滚。本文的 recipe Token 编解码不在这个小实现里，两条阅读线分开。
+
 模型输出经过一个网关，工具调用行为就可能变化。有时问题并不在权重，而是在转换中丢掉了一点信息：这段字符来自一个控制 Token，还是来自普通 Token 拼成的文本？这是一个完整调用，还是只收到了开头？
 
 recipe 的输入编码与输出解析，围绕这些区别保留了相当明确的边界。这篇沿 `Prompt → PromptTokenizer → StreamDecoder → StreamProcessor` 读下去，固定于 [`935817c6`](https://github.com/deepseek-ai/deepseek-recipe/tree/935817c66f5d6e64838f419692545f06787e485f)。

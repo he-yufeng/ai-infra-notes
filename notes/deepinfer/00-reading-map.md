@@ -9,6 +9,10 @@
 
 本轮是源码阅读，没有运行模型或集群 benchmark。文中提到的测试均为阅读已有断言，不代表已经在本地跑过。
 
+## 可运行的配套参考（2026-10-21）
+
+想先跑请求、状态恢复、预算分配与 KV 回滚，可以看我另做的 [Core DeepInfer](https://github.com/he-yufeng/core-deepinfer)，也可从 [PyPI 安装 0.1.0](https://pypi.org/project/core-deepinfer/0.1.0/)。它是随机参数的 NumPy CPU 参考，不加载 DeepSeek 权重，也不包含 recipe 编解码；下面保留原版源码分析及其当时的验证范围，小参考的测试不倒填成原框架验证。
+
 ## YoCo：mask 和 compact 省的不是同一份计算
 
 入口从 `deepinfer/model_executor/models/deepseek.py` 的层循环看起。在首个 YoCo consumer 层，`mask` 换入收窄 SWA 可见域的 metadata；`compact` 则在切 metadata 后，由 `decoder_layer.py` 的边界处理 gather 出保留的 hidden states 和 residual。

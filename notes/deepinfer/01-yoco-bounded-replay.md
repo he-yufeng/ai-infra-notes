@@ -2,6 +2,8 @@
 
 2026-10-20 · DeepInfer 源码导读 01
 
+> 想先把状态变化跑出来，可以看我做的配套参考 [Core DeepInfer](https://github.com/he-yufeng/core-deepinfer)。它用随机参数的 NumPy 模型观察前缀恢复、有限回放与 KV 回滚，不需要 GPU；不是 DeepSeek 权重推理。下面仍按原版源码分析。
+
 DeepSeek 的部署报告提到，V4.1 在 SWA 状态缺失后只做有限窗口回放，而不沿着多层依赖精确重建。这件事有两层问题：模型是否能接受近似状态，以及引擎怎样真的少执行那些计算。
 
 这篇只跟后一个问题。读 `mask` 和 `compact` 两条路径，能看到一个容易混淆的区别：**让一个 query 少看一些位置，不等于让后面的层少处理一些 query。**
