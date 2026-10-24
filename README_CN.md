@@ -6,6 +6,20 @@
 
 每篇尽量沿一条具体调用链讲清楚：设计解决什么问题，工作在哪一步省掉，依赖哪些条件，又该怎样验证。内容不局限于某个框架或厂商。
 
+## Kimi K3.1：把工具历史、费用和实际产物验清楚
+
+[运行例子](notes/examples/kimi_k31/README_CN.md) · [English](notes/examples/kimi_k31/README.md)
+
+这组离线优先的例子把Chat协议与真实几何接在一起：保留推理和工具调用历史，拆清缓存读写与普通输入，生成一块带两个通孔的板，再连续修改两次、导出STL、重新加载验收。反例覆盖同体积错孔位、盲孔，以及用缩径补偿体积的扩孔，不能只凭总量正确就判通过。
+
+默认使用合成流与固定参数，不需要key或GPU。可选原生API烟测有明确的请求数、输入体积、输出、时间与费用预留限制，不冒充模型benchmark或制造验证。关联上游问题为[Kimi Code #4368](https://github.com/MoonshotAI/kimi-code/issues/4368)，不把报告写成已合并修复。
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r notes/examples/kimi_k31/requirements.txt
+.venv/bin/python -m notes.examples.kimi_k31
+```
+
 ## DeepInfer / deepseek-recipe 源码系列
 
 DeepSeek 于 2026 年 10 月 20 日公开 DeepInfer 推理核心与 deepseek-recipe 编解码组件。目前五篇从实际调用链出发，既看计算与状态，也看批量失败和工具历史的协议边界，不把生产报告中的整套基础设施当成已经随引擎交付。

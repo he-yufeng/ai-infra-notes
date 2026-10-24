@@ -1,0 +1,46 @@
+name: Kimi workflow examples
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'notes/examples/kimi_k31/**'
+      - '.github/workflows/kimi-k31-examples.yml'
+  pull_request:
+    paths:
+      - 'notes/examples/kimi_k31/**'
+      - '.github/workflows/kimi-k31-examples.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: 'notes/examples/kimi_k31/requirements*.txt'
+      - name: Install example dependencies
+        run: python -m pip install -r notes/examples/kimi_k31/requirements-dev.txt
+      - name: Check code style
+        run: |
+          ruff check notes/examples/kimi_k31
+          ruff format --check notes/examples/kimi_k31
+      - name: Run offline tests
+        run: python -m unittest discover -s notes/examples/kimi_k31/tests -v
+      - name: Generate reference geometry
+        run: python -m notes.examples.kimi_k31 --output .artifacts/kimi-k31-ci
+      - uses: actions/upload-artifact@v4
+        with:
+          name: offline-geometry-and-protocol
+          path: .artifacts/kimi-k31-ci
+          include-hidden-files: true
+          if-no-files-found: error

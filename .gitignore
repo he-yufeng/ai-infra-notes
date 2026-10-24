@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 .venv/
+.ruff_cache/
 .env
 .env.*
 !.env.example

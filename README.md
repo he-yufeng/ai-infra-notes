@@ -6,6 +6,20 @@ Source-level notes on inference engines, KV caches, scheduling, communication, m
 
 I follow concrete execution paths: what a design avoids computing, which assumptions make it work, and how to distinguish implementation checks from performance or quality evidence. These are independent engineering notes, not official project documentation.
 
+## Kimi K3.1 workflow examples
+
+[Run the examples](notes/examples/kimi_k31/README.md) · [中文说明](notes/examples/kimi_k31/README_CN.md)
+
+An offline-first Chat protocol and geometry lab: preserve reasoning and tool-call history, account for cache reads and writes without double counting, and verify a real two-hole solid through two constrained edits and STL round trips. Negative tests include wrong-pitch parts with matching volume, blind holes and volume-compensated counterbores.
+
+The default run uses synthetic streams and fixed parameters. Optional native API smoke tests have explicit request, output, input-size, time and cost-reservation limits. This is not a model benchmark or a manufacturing certificate. The related upstream report is [Kimi Code #4368](https://github.com/MoonshotAI/kimi-code/issues/4368); a report is not a merged fix.
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r notes/examples/kimi_k31/requirements.txt
+.venv/bin/python -m notes.examples.kimi_k31
+```
+
 ## DeepInfer / deepseek-recipe
 
 Five source walkthroughs in Chinese, with pinned code links and explicit validation scope:
